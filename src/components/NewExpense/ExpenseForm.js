@@ -3,38 +3,39 @@ import { useState } from 'react';
 
 
 const ExpenseForm = (props) => {
-    const[userInput, setuserInput] = useState({
-        enteredTitle: '',
-        enteredPrice: '', 
-        enteredDate: '', 
-    } ) 
+    const [enteredTitle, setEnteredTitle] = useState('')
+    const [enteredPrice, setEnteredPrice] = useState('')
+    const [enteredDate, setEnteredDate] = useState('')
 
-        console.log(userInput)
-            const titleChangeHandler = (event) => {
-                setuserInput ({
-                    ...userInput,
-                    enteredTitle: event.target.value
-            } )
-                
-        }
-        const priceChangeHandler = (event) => {
-            setuserInput ({
-                ...userInput,
-                enteredPrice: event.target.value
-        } )
-            
+    const titleChangeHandler = (event) => {
+        setEnteredTitle(event.target.value)
     }
+
+    const priceChangeHandler = (event) => {
+        setEnteredPrice(event.target.value)
+    }
+
     const dateChangeHandler = (event) => {
-        setuserInput ({
-            ...userInput,
-            enteredDate: event.target.value
-    } )
-        
-}
+        setEnteredDate(event.target.value)
+    }
+
+    const submitHandler = (event) => {
+        event.preventDefault()
+        const expenseData = {
+            title: enteredTitle,
+            price: enteredPrice,
+            date: new Date(enteredDate)
+        }
+        props.onSaveExpenseData(expenseData)
+        setEnteredTitle('')
+        setEnteredPrice('')
+        setEnteredDate('')
+    }    
+
 
 
     return(
-        <form>
+        <form onSubmit={submitHandler}>
             <div className="new-expense__controls">
                 <div className="new-expense__control">
                     <label>Title</label>
